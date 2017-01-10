@@ -9,11 +9,18 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <selenium.version>2.53.1</selenium.version>
-        <selendroid.version>0.17.0</selendroid.version>
+        <!--  compiler settings -->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <browser.name>${browser.name}</browser.name>
+        <trail.enabled>${trail}</trail.enabled>
+        <trail.suite>${trail.id}</trail.suite>
+        <trail.run>${trail.rname}</trail.run>
         <aspectj.version>1.8.9</aspectj.version>
         <allure.version>1.4.23</allure.version>
     </properties>
+
 
     <build>
         <pluginManagement>
@@ -34,27 +41,6 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>build-distros</id>-->
-                        <!--&lt;!&ndash;<phase>package</phase>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<goals>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<goal>single</goal>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</goals>&ndash;&gt;-->
-                        <!--<configuration>-->
-                            <!--<executable>${basedir}/scripts/calculate-version.sh</executable>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                    <!--<execution>-->
-                        <!--<id>default-cli</id>-->
-                        <!--<configuration>-->
-                            <!--<descriptorRefs>-->
-                                <!--<descriptorRef>jar-with-dependencies</descriptorRef>-->
-                                <!--<descriptorRef>project</descriptorRef>-->
-                            <!--</descriptorRefs>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -66,23 +52,18 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.18.1</version>
                 <configuration>
-                    <testFailureIgnore>false</testFailureIgnore>
-                    <suiteXmlFiles>
-                        <suiteXmlFile>${testng.suite}</suiteXmlFile>
-                    </suiteXmlFiles>
                     <argLine>
                         -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
                     </argLine>
                     <systemPropertyVariables>
-                        <device.platform.name>${device.platform.name}</device.platform.name>
-                        <device.platform.version>${device.platform.version}</device.platform.version>
-                        <device.name>${device.name}</device.name>
-                        <device.browser>${device.browser}</device.browser>
-                        <device.uid>${device.uid}</device.uid>
-                        <iproxy.port>${iproxy.port}</iproxy.port>
-                        <appium.port>${appium.port}</appium.port>
-                        <proxy.port>${proxy.port}</proxy.port>
+                        <browser.name>${browser.name}</browser.name>
+                        <trail.enabled>${trail}</trail.enabled>
+                        <trail.suite>${trail.id}</trail.suite>
+                        <trail.run>${trail.rname}</trail.run>
                     </systemPropertyVariables>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>${testng.suite}</suiteXmlFile>
+                    </suiteXmlFiles>
                     <junitArtifactName>none:none</junitArtifactName>
                 </configuration>
                 <dependencies>
@@ -102,24 +83,18 @@
     </build>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.testng/testng -->
-        <!--<dependency>-->
-            <!--<groupId>org.testng</groupId>-->
-            <!--<artifactId>testng</artifactId>-->
-            <!--<version>6.9.13.6</version>-->
-        <!--</dependency>-->
-
+        <!--https://mvnrepository.com/artifact/org.testng/testng-->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.9.13.6</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-            <version>1.8.9</version>
+            <version>${aspectj.version}</version>
         </dependency>
 
         <dependency>
@@ -148,6 +123,33 @@
     </dependencies>
 
     <profiles>
+
+        <!--browsers-->
+        <profile>
+            <id>browser-firefox</id>
+            <properties>
+                <browser.name>firefox</browser.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>browser-chrome</id>
+            <properties>
+                <browser.name>chrome</browser.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>browser-safari</id>
+            <properties>
+                <browser.name>safari</browser.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>browser-ie</id>
+            <properties>
+                <browser.name>ie</browser.name>
+            </properties>
+        </profile>
+
         <profile>
             <id>suite-full</id>
             <properties>
@@ -155,70 +157,6 @@
             </properties>
         </profile>
 
-        <!-- separate test groups -->
-        <profile>
-            <id>IPhone-6</id>
-            <properties>
-                <device.platform.name>iOS</device.platform.name>
-                <device.platform.version>10.1.1</device.platform.version>
-                <device.name>iPhone Eugene</device.name>
-                <device.uid>06ea52db1797ab1a561ff3d4646847e9e165ae3e</device.uid>
-                <device.browser>Safari</device.browser>
-                <iproxy.port>8100</iproxy.port>
-                <appium.port>4733</appium.port>
-                <proxy.port>27754</proxy.port>
-            </properties>
-        </profile>
-        <profile>
-            <id>IPhone-6+</id>
-            <properties>
-                <device.platform.name>iOS</device.platform.name>
-                <device.platform.version>10.1.1</device.platform.version>
-                <device.name>iPhone</device.name>
-                <device.uid>658371054fef6c1e944c387488d5bde23ebaa245</device.uid>
-                <device.browser>Safari</device.browser>
-                <iproxy.port>8200</iproxy.port>
-                <appium.port>4734</appium.port>
-                <proxy.port>27755</proxy.port>
-            </properties>
-        </profile>
-        <profile>
-            <id>IPhone-4s</id>
-            <properties>
-                <device.platform.name>iOS</device.platform.name>
-                <device.platform.version>10.1.1</device.platform.version>
-                <device.name>iPhone</device.name>
-                <device.uid>658371054fef6c1e944c387488d5bde23ebaa245</device.uid>
-                <device.browser>Safari</device.browser>
-                <iproxy.port>8300</iproxy.port>
-                <appium.port>4735</appium.port>
-                <proxy.port>27756</proxy.port>
-            </properties>
-        </profile>
-        <profile>
-            <id>GalaxyS6</id>
-            <properties>
-                <device.platform.name>Android</device.platform.name>
-                <device.platform.version>6.0.1</device.platform.version>
-                <device.name>Galaxy S6</device.name>
-                <device.uid>02157df2b2060e3f</device.uid>
-                <device.browser>Chrome</device.browser>
-                <appium.port>4740</appium.port>
-                <proxy.port>27760</proxy.port>
-            </properties>
-        </profile>
-        <profile>
-            <id>GalaxyNote4</id>
-            <properties>
-                <device.platform.name>Android</device.platform.name>
-                <device.platform.version>10.1.1</device.platform.version>
-                <device.name>Galaxy Note4</device.name>
-                <device.uid>712cdafb</device.uid>
-                <device.browser>Chrome</device.browser>
-                <appium.port>4741</appium.port>
-                <proxy.port>27761</proxy.port>
-            </properties>
-        </profile>
     </profiles>
 
     <reporting>
