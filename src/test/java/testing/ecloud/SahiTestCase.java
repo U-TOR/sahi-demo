@@ -1,20 +1,22 @@
+package testing.ecloud;
+
 import net.sf.sahi.client.Browser;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import testing.ecloud.DriverProvider;
 
-@Test
 public class SahiTestCase {
 	Browser b;
 
 	@BeforeTest
-	public void setUp(){
+	public void setUp() {
 		b = DriverProvider.initSahiBrowser();
 	}
 
 	@AfterTest
 	public void tearDown(){
-		DriverProvider.tearDownSahiBrowser();
+		DriverProvider.tearDownSahiBrowser(b);
 	}
 
 	@Test()

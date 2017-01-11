@@ -1,3 +1,5 @@
+package testing.ecloud;
+
 import net.sf.sahi.client.Browser;
 
 /**
@@ -5,19 +7,17 @@ import net.sf.sahi.client.Browser;
  */
 public class DriverProvider {
 
-    private static Browser browser;
-
     public static Browser initSahiBrowser() {
         return initSahiBrowser(System.getProperty("browser.name"));
     }
 
     public static Browser initSahiBrowser(String browserName) {
-        browser = new Browser(browserName);
+        Browser browser = new Browser(browserName);
         browser.open();
         return browser;
     }
 
-    public static void tearDownSahiBrowser() {
+    public static void tearDownSahiBrowser(Browser browser) {
         browser.setSpeed(100);
         browser.close();
     }

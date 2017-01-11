@@ -1,0 +1,21 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Full suite">
+    <test name="All tests" parallel="methods" thread-count="10">
+        <groups>
+            <define name="all">
+                <include name="projects"/>
+                <!--And so on-->
+
+            </define>
+
+            <run>
+                <include name="all"/>
+                <exclude name="excluded"/>
+            </run>
+        </groups>
+
+        <packages>
+            <package name="testing.ecloud.*"/>
+        </packages>
+    </test>
+</suite>

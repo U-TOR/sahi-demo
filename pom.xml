@@ -79,28 +79,54 @@
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.4</version>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <executions>
+                    <execution>
+                        <id>install-external</id>
+                        <phase>clean</phase>
+                        <configuration>
+                            <file>${basedir}/lib/sahi.jar</file>
+                            <repositoryLayout>default</repositoryLayout>
+                            <groupId>sahi</groupId>
+                            <artifactId>net.sf.sahi</artifactId>
+                            <version>1.0</version>
+                            <packaging>jar</packaging>
+                            <generatePom>true</generatePom>
+                        </configuration>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>sahi</groupId>
+            <artifactId>net.sf.sahi</artifactId>
+            <version>1.0</version>
+        </dependency>
+
         <!--https://mvnrepository.com/artifact/org.testng/testng-->
+        <!-- https://mvnrepository.com/artifact/org.testng/testng -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>6.9.13.6</version>
+            <version>6.10</version>
         </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
             <version>${aspectj.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>ru.yandex.qatools.allure</groupId>
-            <artifactId>allure-testng-adaptor</artifactId>
-            <version>${allure.version}</version>
         </dependency>
 
         <dependency>
@@ -150,10 +176,17 @@
             </properties>
         </profile>
 
+        <!--suites-->
         <profile>
             <id>suite-full</id>
             <properties>
                 <testng.suite>${basedir}/src/test/resources/testsuites/all.xml</testng.suite>
+            </properties>
+        </profile>
+        <profile>
+            <id>suite-projects</id>
+            <properties>
+                <testng.suite>${basedir}/src/test/resources/testsuites/projects.xml</testng.suite>
             </properties>
         </profile>
 
