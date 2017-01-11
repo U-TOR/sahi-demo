@@ -18,7 +18,7 @@
         <trail.suite>${trail.id}</trail.suite>
         <trail.run>${trail.rname}</trail.run>
         <aspectj.version>1.8.9</aspectj.version>
-        <allure.version>1.4.23</allure.version>
+        <allure.version>1.5.0</allure.version>
     </properties>
 
 
@@ -60,6 +60,12 @@
                         <trail.enabled>${trail}</trail.enabled>
                         <trail.suite>${trail.id}</trail.suite>
                         <trail.run>${trail.rname}</trail.run>
+
+                        <!-- TODO: Update data -->
+                        <server.address>http://192.168.6.134/</server.address>
+                        <user.login>admin</user.login>
+                        <user.password>changeme</user.password>
+
                     </systemPropertyVariables>
                     <suiteXmlFiles>
                         <suiteXmlFile>${testng.suite}</suiteXmlFile>
@@ -113,7 +119,6 @@
             <version>1.0</version>
         </dependency>
 
-        <!--https://mvnrepository.com/artifact/org.testng/testng-->
         <!-- https://mvnrepository.com/artifact/org.testng/testng -->
         <dependency>
             <groupId>org.testng</groupId>
@@ -121,6 +126,18 @@
             <version>6.10</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>3.4.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20140107</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
         <dependency>
@@ -132,7 +149,7 @@
         <dependency>
             <groupId>ru.yandex.qatools.allure</groupId>
             <artifactId>allure-maven-plugin</artifactId>
-            <version>2.2</version>
+            <version>2.5</version>
         </dependency>
         <dependency>
             <groupId>ru.yandex.qatools.allure</groupId>
@@ -145,6 +162,22 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.22</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.22</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>log4j</groupId>-->
+            <!--<artifactId>log4j</artifactId>-->
+            <!--<version>1.2.17</version>-->
+        <!--</dependency>-->
 
     </dependencies>
 
@@ -187,9 +220,18 @@
             <id>suite-projects</id>
             <properties>
                 <testng.suite>${basedir}/src/test/resources/testsuites/projects.xml</testng.suite>
+                <trail.id></trail.id>
+                <trail.rname>Projects suite</trail.rname>
             </properties>
         </profile>
 
+        <!-- for testrail integration -->
+        <profile>
+            <id>usetrail</id>
+            <properties>
+                <trail>true</trail>
+            </properties>
+        </profile>
     </profiles>
 
     <reporting>
@@ -198,10 +240,7 @@
             <plugin>
                 <groupId>ru.yandex.qatools.allure</groupId>
                 <artifactId>allure-maven-plugin</artifactId>
-                <!--<configuration>-->
-                <!--<resultsDirectory>allure-results-${device.name}</resultsDirectory>-->
-                <!--<reportDirectory>allure-report-${device.name}</reportDirectory>-->
-                <!--</configuration>-->
+                <version>2.5</version>
             </plugin>
         </plugins>
     </reporting>

@@ -1,14 +1,24 @@
 package testing.ecloud.projects;
 
 import net.sf.sahi.client.Browser;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import ru.yandex.qatools.allure.annotations.Features;
 import ru.yandex.qatools.allure.annotations.TestCaseId;
 import testing.ecloud.helpers.DriverProvider;
 
+import static org.testng.Assert.assertTrue;
 
-public class DummyProjectTest1 {
+
+public class DummyProjectTest4 {
+
 	private Browser b;
+
+	@BeforeMethod(alwaysRun = true)
+	public void setUp() throws InterruptedException {
+		b = DriverProvider.getBrowser();
+	}
 
 	@Features("Projects tests")
 	@TestCaseId("1446")
@@ -19,11 +29,7 @@ public class DummyProjectTest1 {
 		b.password("password[1]").setValue(System.getProperty("user.password"));
 		b.submit("Login[1]").click();
 
-	}
-
-	@BeforeMethod(alwaysRun = true)
-	public void setUp() throws InterruptedException {
-		b = DriverProvider.getBrowser();
+		assertTrue(false, "Failed test");
 	}
 
 	@AfterMethod(alwaysRun = true)
