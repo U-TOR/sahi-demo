@@ -55,7 +55,7 @@ public class DriverProvider {
     private static ThreadLocal<Browser> webDriver = new ThreadLocal<>();
 
     private static Browser initSahiBrowser() {
-        Browser browser = new Browser(System.getProperty("browser.name"));
+        Browser browser = new Browser(System.getProperty("driver.name"));
         browser.open();
         browser.resizeWindow(1366, 768);    // AFAIK it's a min required resolution
         return browser;
